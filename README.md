@@ -1,14 +1,17 @@
 
 # # stat_banner
 Linux System Stat Banner
++ One time banner output when logging in to the system
+> Sample Stat Banner    
+<img src="./img/stat_banner.png" width="60%" height="50%" title="stat_banner" alt="stat_banner"></img>
 
-
-## Download
+## Download & Install & pre running
 ```
 cd {Install_PATH}
 wget https://github.com/HonamSong/stat_banner/archive/refs/tags/latest.tar.gz
 tar xvfz latest.tar.gz
 cd stat_banner
+sh system_stat.sh
 ```
 
 ## Add to Cron.d
@@ -55,10 +58,11 @@ $ cat {Install_PATH}/stat_banner/aws_info.json
 }
 ```
 
+
 ## Warning Banner
 Change the banner Text is variable "warning_text"
 ```
-$ {Install_path}/security_banner.cfg
+$ {Install_path}/stat_banner/security_banner.cfg
 ...skip
 # Banner Message  
 warnning_text=(  
@@ -67,6 +71,9 @@ warnning_text=(
 )
 ...skip
 ```
+
++ Disable warning_banner is delete a file "{Install_path}/stat_banner/security_banner.cfg" 
+
 ### Sample warning Banner
 <img src="./img/stat_banner_warning_banner.png" width="60%" height="50%" title="warning_banner" alt="warning_banner"></img>
 
