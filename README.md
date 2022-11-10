@@ -1,7 +1,7 @@
 
 Stat_banner
 =========
-Linux System Stat Banner    
+__Linux System Stat Banner__    
 + One time banner output when logging in to the system
 * __Current OS version__ 
   * CentOS 7 / AmazonLinux2
@@ -9,8 +9,11 @@ Linux System Stat Banner
   * Ubuntu 18.04 / Ubuntu 20.04 / Ubuntu 22.04
 
 
-> Sample Stat Banner    
-<img src="./img/stat_banner.png" width="60%" height="50%" title="stat_banner" alt="stat_banner"></img>
+##Sample Stat Banner   
+ - AWS System Stat_banner    
+<img src="./img/stat_banner.png" width="60%" height="50%" title="stat_banner" alt="stat_banner"></img></p>     
+ - Non-AWS system Stat_banner 
+<img src="./img/stat_banner_not_aws.png" width="60%" height="50%" title="stat_banner_not_aws" alt="stat_banner_not_aws"></img>
 
 ## Download & Install & pre running
 ```
@@ -27,7 +30,7 @@ echo "*/1 * * * * root /bin/bash {Install_PATH}/stat_banner/system_stat.sh"  > /
 ```
 or
 ```
-# Crontab에 추가 
+# Add to Crontab
 
 $ crontab -e
 */1 * * * * /bin/bash {Install_PATH}/stat_banner/system_stat.sh
@@ -86,7 +89,7 @@ warnning_text=(
 ...skip
 ```
 
-+ Disable warning_banner is delete a file "{Install_path}/stat_banner/security_banner.cfg" 
++ Delete the file to disable warning banner "{Install_path}/stat_banner/security_banner.cfg" 
 
 ### Sample warning Banner
 <img src="./img/stat_banner_warning_banner.png" width="60%" height="50%" title="warning_banner" alt="warning_banner"></img>
