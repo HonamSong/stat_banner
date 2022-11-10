@@ -1,7 +1,14 @@
 
-# # stat_banner
-Linux System Stat Banner
+Stat_banner
+=========
+Linux System Stat Banner    
 + One time banner output when logging in to the system
+* __Current OS version__ 
+  * CentOS 7 / AmazonLinux2
+  * RockyOS 8
+  * Ubuntu 18.04 / Ubuntu 20.04 / Ubuntu 22.04
+
+
 > Sample Stat Banner    
 <img src="./img/stat_banner.png" width="60%" height="50%" title="stat_banner" alt="stat_banner"></img>
 
@@ -18,9 +25,16 @@ sh system_stat.sh
 ```
 echo "*/1 * * * * root /bin/bash {Install_PATH}/stat_banner/system_stat.sh"  > /etc/cron.d/system_stat_banner
 ```
+or
+```
+# Crontab에 추가 
+
+$ crontab -e
+*/1 * * * * /bin/bash {Install_PATH}/stat_banner/system_stat.sh
+```
 
 ## Aws Account info
-On Aws Instance Account Info
+__On Aws Instance Account Info__
 ```
 $ cat {Install_PATH}/stat_banner/aws_info.json
 
@@ -59,10 +73,10 @@ $ cat {Install_PATH}/stat_banner/aws_info.json
 ```
 
 
-## Warning Banner
-Change the banner Text is variable "warning_text"
+## Set Warning Banner
+__Change the banner Text is variable "warning_text"__
 ```
-$ {Install_path}/stat_banner/security_banner.cfg
+$ vi {Install_path}/stat_banner/security_banner.cfg
 ...skip
 # Banner Message  
 warnning_text=(  
