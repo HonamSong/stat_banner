@@ -4,9 +4,9 @@
 # echo "*/1 * * * * root /bin/bash {INSTALL_PATH}/stat_banner/system_stat.sh"  > /etc/cron.d/system_stat_banner
 
 # script description
-_version='v0.0.1'
-_creator="louky0714@gmail.com"
-_create_date="2022.11.09"  # create or update
+_version='v0.0.3'
+_creator="hnsong"
+_create_date="2023.01.10"  # create or update
 
 #script_path=$(echo $0 | xargs dirname)
 script_path=$(cd $(echo "$0" | xargs dirname) ; echo $PWD ; (cd - > /dev/null))
@@ -64,6 +64,8 @@ fi
 export PATH
 export on_aws_instance=${on_aws_instance:-'None'}
 
+
+AWS_INFO_FILE="${script_path}/aws_info.json"
 
 ipCmd=$(/usr/bin/which ip | awk '{print $1}')
 printfCmd='/usr/bin/printf'
@@ -189,7 +191,8 @@ aws_get_info() {
                                 fi
 
                                 if [ ${account_name} == 'None' ] || [ $(echo ${account_name} | tr "[:upper:]" "[:lower:]") == 'null' ] ; then
-                                        account_name="Not found Account ID"
+                                        #account_name="Not found Account ID"
+                                        account_name="Account ID"
                                 fi
 
                                 return_value="${account_name}"
@@ -200,7 +203,8 @@ aws_get_info() {
                                         region_name=$(eval "cat < ${AWS_INFO_FILE} | jq -r '.aws.region.\"${region_id}\"'")
                                 fi
                                 if [ ${region_name} == 'None' ] || [ $(echo ${region_name} | tr "[:upper:]" "[:lower:]") == 'null' ] ; then
-                                        region_name="Not found Region ID"
+                                        #region_name="Not found Region ID"
+                                        region_name="Region ID"
                                 fi
 
                                 return_value="${region_name}"
@@ -282,6 +286,10 @@ nic_check() {
 			ip_addr_array[${for_idx}]=${ipaddress}
 			for_idx=$(( ${for_idx} + 1 ))
 		done
+
+		if [ ${eth_if_len} -le 15 ] ; then
+			eth_if_len=15
+		fi
 		#### Docker IP address check
 		if [ $(echo "Interface Name" | wc -c) -ge ${eth_if_len} ] ; then
                         eth_if_len=$(echo "Interface Name" | wc -c)
@@ -332,6 +340,12 @@ disk_usage_check() {
 	partition_list=$(mount -l  | grep -E "xfs|ext" | grep -Ev "tmpfs|sunrpc|fs\/nfsd|selinuxfs" | awk '{print $1}')
 	for pList in ${partition_list} ; do
 		partition_name=$(df -h | grep "${pList} " | awk '{print $(NF)}')
+
+		if [[ $(echo ${OS_VERSION} | grep -Ei "ubuntu|debian" > /dev/null ; echo $?) -eq 0 ]] ; then
+			partition_name=$(mount -l | grep -E "${pList} " | awk '{print $3}')
+		else
+			partition_name=$(df -h | grep "${pList} " | awk '{print $(NF)}')
+		fi
 
 		if [ $(mount -l  | grep "${pList}" | grep nfs >/dev/null ; echo $?) -ne 0 ] ; then
 			pSize=$(df ${partition_name} -h | awk '{ a = $4 } END { print a }')
@@ -390,6 +404,7 @@ main() {
 	aws_machin_check;
 	nic_check;
 	disk_usage_check;
+	${printfCmd} "\n\n" >> /etc/motd
 	security_banner;
 	shap_print "shap_print_cnt=100" "is_end=true"
 
